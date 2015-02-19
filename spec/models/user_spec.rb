@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context "given a new User instance" do
+    it "should validate the presence of email" do
+      expect(User.new(:email => "")).not_to be_valid
+    end
+  end
 end
