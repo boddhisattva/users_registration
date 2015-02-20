@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "HomePage", type: :request do
   describe "Home page" do
-    it "should have the content 'User Registrations App'" do
+    it "should have the name of the app" do
       visit root_path
       expect(page).to have_content('User Registrations App')
     end
@@ -20,17 +20,19 @@ RSpec.describe "HomePage", type: :request do
   describe "login" do
 
     before { visit login_path }
-    let(:user) { FactoryGirl.create(:user) }
     let(:submit) { "Log in" }
+    # let(:user) { FactoryGirl.create(:user) }
+    @user = FactoryGirl.create(:user)
 
     describe "with valid information" do
+
       before do
         fill_in "Email",        with: "t1@test.com"
         fill_in "Password",     with: "foo"
       end
       it "should login the user and display his email on the logged in page" do
         click_button submit
-        page.has_content?(user.email)
+        expect(page).to have_content("Hello t1@test.com")
       end
 
     end
@@ -42,8 +44,9 @@ RSpec.describe "HomePage", type: :request do
       end
       it "should display appropriate login error message" do
         click_button submit
-        page.has_content?('Invalid email and/or password combination')
+        expect(page).to have_content('Invalid email and/or password combination')
       end
     end
+
   end
 end
