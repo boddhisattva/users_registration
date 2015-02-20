@@ -20,8 +20,19 @@ RSpec.describe "UserPages", type: :request do
       let(:submit) { "Create user" }
 
       describe "with invalid information" do
+        before do
+          fill_in "Email",        with: "user@example.com"
+          fill_in "Password",     with: "foobar"
+          fill_in "Password Confirmation", with: "foo"
+        end
+
         it "should not create a user" do
           expect { click_button submit }.not_to change(User, :count)
+        end
+
+        it "should display error message for matching password not matching password confirmation" do
+          click_button submit
+          page.has_content?('Password confirmation doesn\'t match Password')
         end
       end
 
@@ -29,12 +40,13 @@ RSpec.describe "UserPages", type: :request do
         before do
           fill_in "Email",        with: "user@example.com"
           fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foobar"
+          fill_in "Password Confirmation", with: "foobar"
         end
 
         it "should create a user" do
           expect { click_button submit }.to change(User, :count).by(1)
         end
+
       end
     end
 
