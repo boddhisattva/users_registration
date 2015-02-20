@@ -32,7 +32,7 @@ RSpec.describe "UserPages", type: :request do
 
         it "should display error message for matching password not matching password confirmation" do
           click_button submit
-          page.has_content?('Password confirmation doesn\'t match Password')
+          expect(page).to have_content('Password confirmation doesn\'t match Password')
         end
       end
 
@@ -49,12 +49,17 @@ RSpec.describe "UserPages", type: :request do
 
         it "should redirect to a login page with an appropriate welcome message" do
           click_button submit
-          page.has_content?('Welcome aborad')
+          expect(page).to have_content('Welcome aboard')
         end
 
-        it "should redirect to a login page and display logged in user's email" do
+        it "should redirect to a login page with an appropriate welcome message" do
           click_button submit
-          page.has_content?('user@example.com')
+          expect(page).to have_content('user@example.com')
+        end
+
+        it "should redirect to a login page with a logout link" do
+          click_button submit
+          expect(page).to have_content('Log out')
         end
 
       end
