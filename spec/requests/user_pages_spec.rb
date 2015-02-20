@@ -34,6 +34,11 @@ RSpec.describe "UserPages", type: :request do
           click_button submit
           expect(page).to have_content('Password confirmation doesn\'t match Password')
         end
+
+        it "should render the sign up page again" do
+          click_button submit
+          expect(page).to have_content('Password confirmation')
+        end
       end
 
       describe "with valid information" do
