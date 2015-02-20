@@ -16,4 +16,34 @@ RSpec.describe "HomePage", type: :request do
       expect(page).to have_content('Password Confirmation')
     end
   end
+
+  describe "login" do
+
+    before { visit login_path }
+    let(:user) { FactoryGirl.create(:user) }
+    let(:submit) { "Log in" }
+
+    describe "with valid information" do
+      before do
+        fill_in "Email",        with: "t1@test.com"
+        fill_in "Password",     with: "foo"
+      end
+      it "should login the user and display his email on the logged in page" do
+        click_button submit
+        page.has_content?(user.email)
+      end
+
+    end
+
+    describe "with invalid information" do
+      before do
+        fill_in "Email",        with: "t1@test.com"
+        fill_in "Password",     with: "fo"
+      end
+      it "should display appropriate login error message" do
+        click_button submit
+        page.has_content?('Invalid email and/or password combination')
+      end
+    end
+  end
 end
