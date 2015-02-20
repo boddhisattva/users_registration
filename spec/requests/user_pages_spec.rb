@@ -65,6 +65,26 @@ RSpec.describe "UserPages", type: :request do
       end
     end
 
+    describe "logout" do
+
+      before { visit login_path }
+      let(:submit) { "Log in" }
+      @user = FactoryGirl.create(:user)
+
+      describe "for a logged in user" do
+        before do
+          fill_in "Email",        with: "t1@test.com"
+          fill_in "Password",     with: "foo"
+        end
+        it "should redirect to home page" do
+          click_button submit
+          click_link "Log out"
+          expect(page).to have_content('New user? Sign up now!')
+        end
+      end
+
+    end
+
   end
 
 end
