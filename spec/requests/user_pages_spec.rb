@@ -47,6 +47,16 @@ RSpec.describe "UserPages", type: :request do
           expect { click_button submit }.to change(User, :count).by(1)
         end
 
+        it "should redirect to a login page with an appropriate welcome message" do
+          click_button submit
+          page.has_content?('Welcome aborad')
+        end
+
+        it "should redirect to a login page and display logged in user's email" do
+          click_button submit
+          page.has_content?('user@example.com')
+        end
+
       end
     end
 
